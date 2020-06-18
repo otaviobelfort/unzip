@@ -78,11 +78,14 @@ public class MainActivity extends AppCompatActivity {
         //FileInputStream zip = new FileInputStream("/data/data/com.dev.maisrobotic.appunzip/wifi_scanner.zip",Context.MODE_PRIVATE);
 
         AssetManager assetManager = this.getAssets();
-        textView.setText(String.valueOf(getFileStreamPath("wifi_scanner.zip")));
+        textView.setText(String.valueOf(getAssetFile(this,"wifi_scanner.xml")));
 
         //copyFile("default/wifi_scanner.zip",
           //      Environment.getExternalStorageDirectory() + "/data/data/com.dev.maisrobotic.appunzip/",
             //    this);
+
+        // acessar diretótio do arquivo.zip na pasta assets
+        File localZip = getAssetFile(this,"wifi_scanner.zip");
 
         btnUnzip.setOnClickListener(new View.OnClickListener() {
 
@@ -91,13 +94,13 @@ public class MainActivity extends AppCompatActivity {
 
                 //String cm = cm.getAssets("default/wifi_scanner.zip");. /data/data/com.dev.maisrobotic.appunzip
 
-                String zipFile = (Environment.getExternalStorageDirectory() + "/Zip/wifi_scanner.zip"); //your zip file location
+                String zipFile = (Environment.getExternalStorageDirectory() + String.valueOf(localZip)); //your zip file location
 
                 //InputStream zipFile2 = Environment.getExternalStorageDirectory() + getAssets().open("wifi_scanner.zip");
 
-                String unzipLocation = Environment.getExternalStorageDirectory() + "/data/data/com.dev.maisrobotic.appunzip/files"; // destination folder location
+                String unzipLocation = Environment.getExternalStorageDirectory() + "/Zip/"; // destination folder location
               //]  DecompressFast df= new DecompressFast(zipFile, unzipLocation);
-                DecompressFast.unzip2(Paths.get(Environment.getExternalStorageDirectory() + "/Zip/wifi_scanner.zip"),Paths.get(Environment.getExternalStorageDirectory() + "/Podcasts/"));
+                DecompressFast.unzip2(Paths.get(Environment.getExternalStorageDirectory() + String.valueOf(localZip)),Paths.get(Environment.getExternalStorageDirectory() + "/Zip/"));
 
 
             }
@@ -111,6 +114,27 @@ public class MainActivity extends AppCompatActivity {
     public String fileName(String fileName){
 
         return Environment.getDataDirectory() + "/" + fileName;
+    }
+
+    public File getAssetFile(Context context, String fileName) {
+        File bitmap = null;
+
+        Log.i("teste", "getAssetFile: fileName: "+fileName);
+        File filePath = null;
+
+        try {
+
+            filePath = context.getFileStreamPath(fileName);
+            //bitmap = BitmapFactory.decodeFile(filePath.toString());
+            return filePath;
+
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            Log.i("default", "getAssetFile: "+e.getMessage());
+            e.printStackTrace();
+
+        }
+        return filePath;
     }
 
 
