@@ -1,0 +1,273 @@
+[
+
+{
+  "type": "block_sensor_luminosidade",
+  "message0": "Sensor de luminosidade     Porta %1   Estado %2",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "PORT",
+      "options": [
+        [
+          "A",
+          "A"
+        ],
+        [
+          "B",
+          "B"
+        ],
+        [
+          "C",
+          "C"
+        ],
+        [
+          "D",
+          "D"
+        ],
+        [
+          "E",
+          "E"
+        ],
+        [
+          "F",
+          "F"
+        ],
+        [
+          "G",
+          "G"
+        ],
+        [
+          "H",
+          "H"
+        ],
+        [
+          "I",
+          "I"
+        ]
+      ]
+    },
+    {
+      "type": "field_dropdown",
+      "name": "STATE",
+      "options": [
+        [
+          "claro",
+          "claro"
+        ],
+        [
+          "escuro",
+          "escuro"
+        ]
+      ]
+    }
+  ],
+  "output": null,
+  "colour": 20,
+  "tooltip": "",
+  "helpUrl": ""
+},
+
+{
+  "type": "block_sensor_obstaculo",
+  "message0": "Sensor de obstáculo     porta %1   estado %2",
+  "args0": [
+    
+    {
+      "type": "field_dropdown",
+      "name": "PORT",
+      "options": [
+        [
+          "A",
+          "A"
+        ],
+        [
+          "B",
+          "B"
+        ],
+        [
+          "C",
+          "C"
+        ],
+        [
+          "D",
+          "D"
+        ],
+        [
+          "E",
+          "E"
+        ],
+        [
+          "F",
+          "F"
+        ],
+        [
+          "G",
+          "G"
+        ],
+        [
+          "H",
+          "H"
+        ],
+        [
+          "I",
+          "I"
+        ]
+      ]
+    },
+    {
+      "type": "field_dropdown",
+      "name": "STATE",
+      "options": [
+        [
+          "perto",
+          "perto"
+        ],
+        [
+          "longe",
+          "longe"
+        ]
+      ]
+    }
+  ],
+  "output": null,
+  "colour": 20,
+  "tooltip": "",
+  "helpUrl": ""
+},
+
+{
+  "type": "block_sensor_seguidordelinha",
+  "message0": "Sensor seguidor de linha     porta %1   estado %2",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "PORT",
+      "options": [
+        [
+          "A",
+          "A"
+        ],
+        [
+          "B",
+          "B"
+        ],
+        [
+          "C",
+          "C"
+        ],
+        [
+          "D",
+          "D"
+        ],
+        [
+          "E",
+          "E"
+        ],
+        [
+          "F",
+          "F"
+        ],
+        [
+          "G",
+          "G"
+        ],
+        [
+          "H",
+          "H"
+        ],
+        [
+          "I",
+          "I"
+        ]
+      ]
+    },
+    {
+      "type": "field_dropdown",
+      "name": "STATE",
+      "options": [
+        [
+          "dentro",
+          "dentro"
+        ],
+        [
+          "fora",
+          "fora"
+        ]
+      ]
+    }
+  ],
+  "output": null,
+  "colour": 20,
+  "tooltip": "",
+  "helpUrl": ""
+},
+
+{
+  "type": "block_sensor_presenca",
+  "message0": "Sensor de presença     porta   %1 estado %2",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "PORT",
+      "options": [
+        [
+          "A",
+          "A"
+        ],
+        [
+          "B",
+          "B"
+        ],
+        [
+          "C",
+          "C"
+        ],
+        [
+          "D",
+          "D"
+        ],
+        [
+          "E",
+          "E"
+        ],
+        [
+          "F",
+          "F"
+        ],
+        [
+          "G",
+          "G"
+        ],
+        [
+          "H",
+          "H"
+        ],
+        [
+          "I",
+          "I"
+        ]
+      ]
+    },
+    {
+      "type": "field_dropdown",
+      "name": "STATE",
+      "options": [
+        [
+          "presente",
+          "presente"
+        ],
+        [
+          "ausente",
+          "ausente"
+        ]
+      ]
+    }
+  ],
+  "output": null,
+  "colour": 20,
+  "tooltip": "",
+  "helpUrl": ""
+}
+
+
+]
