@@ -1,5 +1,7 @@
 package com.dev.maisrobotic.appunzip;
 
+import android.os.Build;
+import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -13,6 +15,7 @@ import java.io.IOException;
 import java.io.ObjectOutput;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
@@ -33,6 +36,10 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import android.util.Log;
 
+import androidx.annotation.RequiresApi;
+
+import static java.nio.file.Files.newInputStream;
+
 public class DecompressFast {
 
 
@@ -47,53 +54,47 @@ public class DecompressFast {
         _dirChecker("");
     }
 
-    public void unzip() {
-        try  {
-            FileInputStream fin = new FileInputStream(_zipFile);
-            ZipInputStream zin = new ZipInputStream(fin);
-            ZipEntry ze = null;
-            while ((ze = zin.getNextEntry()) != null) {
-                Log.v("Decompress", "Unzipping " + ze.getName());
 
-                if(ze.isDirectory()) {
-                    _dirChecker(ze.getName());
-                } else {
-                    FileOutputStream fout = new FileOutputStream(_location + ze.getName());
-                    //Files.createDirectories();
-                    BufferedOutputStream bufout = new BufferedOutputStream(fout);
-                    byte[] buffer = new byte[1024];
-                    int read = 0;
-                    while ((read = zin.read(buffer)) != -1) {
-                        bufout.write(buffer, 0, read);
-                    }
-
-
-
-
-                    bufout.close();
-
-                    zin.closeEntry();
-                    fout.close();
-                }
-
-            }
-            zin.close();
-
-
-            Log.d("Unzip", "Unzipping complete. path :  " +_location );
-        } catch(Exception e) {
-            Log.e("Decompress", "unzip", e);
-
-            Log.d("Unzip", "Unzipping failed");
-        }
-
-    }
 
     private void _dirChecker(String dir) {
         File f = new File(_location + dir);
 
         if(!f.isDirectory()) {
             f.mkdirs();
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static void unzip2(Path zipFile, Path destination) {
+
+        try (ZipInputStream zis = new ZipInputStream(newInputStream(zipFile))) {
+
+            ZipEntry zipElement = zis.getNextEntry();
+
+            while (zipElement != null) {
+
+                Path newFilePath = destination.resolve(zipElement.getName());
+                if (zipElement.isDirectory()) {
+                    Files.createDirectories(newFilePath);
+                } else {
+                    if (!Files.exists(newFilePath.getParent())) {
+                        Files.createDirectories(newFilePath.getParent());
+                    }
+                    try (OutputStream bos = Files.newOutputStream(destination.resolve(newFilePath))) {
+                        byte[] buffer = new byte[Math.toIntExact(zipElement.getSize())];
+
+                        int location;
+
+                        while ((location = zis.read(buffer)) != -1) {
+                            bos.write(buffer, 0, location);
+                        }
+                    }
+                }
+                zipElement = zis.getNextEntry();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 

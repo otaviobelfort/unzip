@@ -66,12 +66,19 @@ public class MainActivity extends AppCompatActivity {
 
         TextView textView = (TextView) findViewById(R.id.textview);
         checkRequiredPermissions();
+        try {
+            Files.copy(Paths.get(Environment.getExternalStorageDirectory() + "/Zip/wifi_scanner.zip"),Paths.get(Environment.getExternalStorageDirectory() + "/Music/"));
+        } catch (IOException e) {
+            Toast.makeText(this,"Não deu certo",Toast.LENGTH_LONG).show();
+
+            e.printStackTrace();
+        }
 
         btnUnzip = (Button) findViewById(R.id.btnUnzip);
         //FileInputStream zip = new FileInputStream("/data/data/com.dev.maisrobotic.appunzip/wifi_scanner.zip",Context.MODE_PRIVATE);
 
         AssetManager assetManager = this.getAssets();
-        textView.setText(String.valueOf(getFileStreamPath("otavio.zip")));
+        textView.setText(String.valueOf(getFileStreamPath("wifi_scanner.zip")));
 
         //copyFile("default/wifi_scanner.zip",
           //      Environment.getExternalStorageDirectory() + "/data/data/com.dev.maisrobotic.appunzip/",
@@ -81,14 +88,17 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
+
                 //String cm = cm.getAssets("default/wifi_scanner.zip");. /data/data/com.dev.maisrobotic.appunzip
+
                 String zipFile = (Environment.getExternalStorageDirectory() + "/Zip/wifi_scanner.zip"); //your zip file location
 
-                InputStream zipFile2 = Environment.getExternalStorageDirectory() + getAssets().open("wifi_scanner.zip");
+                //InputStream zipFile2 = Environment.getExternalStorageDirectory() + getAssets().open("wifi_scanner.zip");
 
-                String unzipLocation = Environment.getExternalStorageDirectory() + "/data/data/com.dev.maisrobotic.appunzip/"; // destination folder location
-                DecompressFast df= new DecompressFast(zipFile, unzipLocation);
-                df.unzip();
+                String unzipLocation = Environment.getExternalStorageDirectory() + "/data/data/com.dev.maisrobotic.appunzip/files"; // destination folder location
+              //]  DecompressFast df= new DecompressFast(zipFile, unzipLocation);
+                DecompressFast.unzip2(Paths.get(Environment.getExternalStorageDirectory() + "/Zip/wifi_scanner.zip"),Paths.get(Environment.getExternalStorageDirectory() + "/Podcasts/"));
+
 
             }
         });
