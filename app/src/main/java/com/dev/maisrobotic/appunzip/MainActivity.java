@@ -84,6 +84,8 @@ public class MainActivity extends AppCompatActivity {
                 //String cm = cm.getAssets("default/wifi_scanner.zip");. /data/data/com.dev.maisrobotic.appunzip
                 String zipFile = (Environment.getExternalStorageDirectory() + "/Zip/wifi_scanner.zip"); //your zip file location
 
+                InputStream zipFile2 = Environment.getExternalStorageDirectory() + getAssets().open("wifi_scanner.zip");
+
                 String unzipLocation = Environment.getExternalStorageDirectory() + "/data/data/com.dev.maisrobotic.appunzip/"; // destination folder location
                 DecompressFast df= new DecompressFast(zipFile, unzipLocation);
                 df.unzip();

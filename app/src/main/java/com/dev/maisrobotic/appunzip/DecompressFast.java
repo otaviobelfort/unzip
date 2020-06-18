@@ -59,7 +59,7 @@ public class DecompressFast {
                     _dirChecker(ze.getName());
                 } else {
                     FileOutputStream fout = new FileOutputStream(_location + ze.getName());
-                    Files.createDirectories();
+                    //Files.createDirectories();
                     BufferedOutputStream bufout = new BufferedOutputStream(fout);
                     byte[] buffer = new byte[1024];
                     int read = 0;
