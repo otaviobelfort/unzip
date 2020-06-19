@@ -98,6 +98,39 @@ public class DecompressFast {
         }
     }
 
+    public static boolean copyFile2(File source, File dest){
+        try{
+            // Declaration et ouverture des flux
+            FileInputStream sourceFile = new FileInputStream(source);
+
+            try{
+                java.io.FileOutputStream destinationFile = null;
+
+                try{
+                    destinationFile = new FileOutputStream(dest);
+
+                    // Lecture par segment de 0.5Mo
+                    byte buffer[] = new byte[512 * 1024];
+                    int nbLecture;
+
+                    while ((nbLecture = sourceFile.read(buffer)) != -1){
+                        destinationFile.write(buffer, 0, nbLecture);
+                    }
+                } finally {
+                    destinationFile.close();
+                }
+            } finally {
+                sourceFile.close();
+            }
+        } catch (IOException e){
+            e.printStackTrace();
+            return false; // Erreur
+        }
+
+        return true; // Rsultat OK
+    }
+
+
 
 }
 

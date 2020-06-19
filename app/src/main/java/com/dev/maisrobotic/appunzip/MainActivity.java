@@ -66,33 +66,40 @@ public class MainActivity extends AppCompatActivity {
 
         TextView textView = (TextView) findViewById(R.id.textview);
         checkRequiredPermissions();
+        //AssetManager assetManager = this.getAssets("default/wifi_scanner.zip");
+        Path source = Paths.get(String.valueOf(getFileStreamPath("wifi_scanner.zip")));
+        Path newDir = Paths.get(String.valueOf(Paths.get(Environment.getExternalStorageDirectory() + "/Music/")));
+        //Files.copy(source,newDir.resolve(source.getFileName()));
+       // copyFile("default/wifi_scanner.zip",String.valueOf(newDir),this);
         try {
-            Files.copy(Paths.get(Environment.getExternalStorageDirectory() + "/Zip/wifi_scanner.zip"),Paths.get(Environment.getExternalStorageDirectory() + "/Music/"));
+            copyAsset(this,"default/wifi_scanner.zip",new File(String.valueOf(newDir)));
         } catch (IOException e) {
-            Toast.makeText(this,"Não deu certo",Toast.LENGTH_LONG).show();
-
+            Toast.makeText(this,"falhou ",Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
+
+        DecompressFast.copyFile2(new File("default/wifi_scanner.zip"),new File(String.valueOf(newDir)));
 
         btnUnzip = (Button) findViewById(R.id.btnUnzip);
         //FileInputStream zip = new FileInputStream("/data/data/com.dev.maisrobotic.appunzip/wifi_scanner.zip",Context.MODE_PRIVATE);
 
-        AssetManager assetManager = this.getAssets();
-        textView.setText(String.valueOf(getAssetFile(this,"wifi_scanner.xml")));
-
-        //copyFile("default/wifi_scanner.zip",
-          //      Environment.getExternalStorageDirectory() + "/data/data/com.dev.maisrobotic.appunzip/",
-            //    this);
+        //AssetManager assetManager = this.getAssets();
+        textView.setText(String.valueOf(getAssetFile(this,"wifi_scanner.zip")));
 
         // acessar diretótio do arquivo.zip na pasta assets
         File localZip = getAssetFile(this,"wifi_scanner.zip");
+
+
+        //copyFile(Environment.getExternalStorageDirectory() + String.valueOf(localZip),
+          //      Environment.getExternalStorageDirectory() + "/Zip/",
+            //    this);
 
         btnUnzip.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-
-                //String cm = cm.getAssets("default/wifi_scanner.zip");. /data/data/com.dev.maisrobotic.appunzip
+                    // /data/data/com.dev.maisrobotic.appunzip
+                //String cm = cm.getAssets("default/wifi_scanner.zip");. /data/data/com.dev.maisrobotic.appunzip /storage/self/primary/data
 
                 String zipFile = (Environment.getExternalStorageDirectory() + String.valueOf(localZip)); //your zip file location
 
@@ -119,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
     public File getAssetFile(Context context, String fileName) {
         File bitmap = null;
 
-        Log.i("teste", "getAssetFile: fileName: "+fileName);
+        Log.i("default", "getAssetFile: fileName: "+fileName);
         File filePath = null;
 
         try {
