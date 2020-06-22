@@ -73,40 +73,24 @@ public class MainActivity extends AppCompatActivity {
 
         //Files.copy(source,newDir.resolve(source.getFileName()));
        // copyFile("default/wifi_scanner.zip",String.valueOf(newDir),this);
-        try {
-            copyAsset(this,"default/wifi_scanner.zip",new File(String.valueOf(newDir)));
-        } catch (IOException e) {
-            Toast.makeText(this,"falhou ",Toast.LENGTH_LONG).show();
-            e.printStackTrace();
-        }
+
+        copyAsset("wifi_scanner.zip");
+
 
         // Exemplo 02 da classe -> DescompressFast
        // DecompressFast.copyFile2(new File("/storage/self/primary/Zip/wifi_scanner.zip"),new File(String.valueOf(newDir)));
 
         btnUnzip = (Button) findViewById(R.id.btnUnzip);
-        //FileInputStream zip = new FileInputStream("/data/data/com.dev.maisrobotic.appunzip/wifi_scanner.zip",Context.MODE_PRIVATE);
 
         AssetManager assetManager = getResources().getAssets();
-        try {
-            String[] lista = assetManager.list("default/");
-            textView.setText(lista.length);
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(this,"Lista vazia ",Toast.LENGTH_LONG).show();
 
-
-        }
-        //textView.setText(String.valueOf(getAssetFile(this,"wifi_scanner.zip")));
+        textView.setText(String.valueOf(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Zip"));
 
 
 
         // acessar diretótio do arquivo.zip na pasta assets
         File localZip = getAssetFile(this,"wifi_scanner.zip");
 
-
-        //copyFile(Environment.getExternalStorageDirectory() + String.valueOf(localZip),
-          //      Environment.getExternalStorageDirectory() + "/Zip/",
-            //    this);
 
         btnUnzip.setOnClickListener(new View.OnClickListener() {
 
@@ -158,37 +142,56 @@ public class MainActivity extends AppCompatActivity {
         return filePath;
     }
 
-
-    public static String copyAsset(Context context, String assetName, File dir) throws IOException {
-        File outFile = new File(dir, assetName);
-        if (!outFile.exists()) {
-            AssetManager assetManager = context.getAssets();
-            InputStream in = assetManager.open(assetName);
-            OutputStream out = new FileOutputStream(outFile);
-           // copyFile(in, out);
-            in.close();
-            out.close();
+    private void copyAsset(String filename) {
+        String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Zip/Otavio ";
+        File dir  = new File(dirPath);
+        if (!dir.exists()){
+            dir.mkdirs();
         }
-        return outFile.getAbsolutePath();
-    }
 
 
-    private void copyFile(String assetPath, String localPath, Context context) {
+        AssetManager assetManager = getAssets();
+        InputStream in = null;
+        OutputStream out = null;
         try {
-            InputStream in = context.getAssets().open(assetPath);
-            FileOutputStream out = new FileOutputStream(localPath);
-            int read;
-            byte[] buffer = new byte[4096];
-            while ((read = in.read(buffer)) > 0) {
-                out.write(buffer, 0, read);
-            }
-            out.close();
-            in.close();
+            in = assetManager.open(filename);
+            File outFile = new File(dirPath, filename);
+            out = new FileOutputStream(outFile);
+            copyFile(in,out);
+            Toast.makeText(this,"Deu Certo New",Toast.LENGTH_SHORT).show();
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            Toast.makeText(this,"Não deu Certo New",Toast.LENGTH_SHORT).show();
+        } finally {
+            if (in != null){
+                try {
+                    in.close();
+                } catch (IOException e){
+                        e.printStackTrace();
+
+                }
+            }
+            if (out != null){
+                try {
+                    out.close();
+                } catch (IOException e){
+                    e.printStackTrace();
+
+                }
+            }
         }
     }
+    private void copyFile(InputStream in, OutputStream out) throws IOException {
+        byte[] buffer = new byte[1024];
+        int read;
+        while((read = in.read(buffer)) != -1){
+            out.write(buffer, 0, read);
+        }
+    }
+
+
+
 
 /*
 * Permissão de leitura e escrita
@@ -206,6 +209,9 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
+
+    // -----------------------------------------------------------------------
+
 
 
 
