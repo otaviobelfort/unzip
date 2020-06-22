@@ -97,14 +97,14 @@ public class DecompressFast {
             throw new RuntimeException(e);
         }
     }
-
+// ---------------------------------------------------------------------
     public static boolean copyFile2(File source, File dest){
         try{
             // Declaration et ouverture des flux
             FileInputStream sourceFile = new FileInputStream(source);
 
             try{
-                java.io.FileOutputStream destinationFile = null;
+                FileOutputStream destinationFile = null;
 
                 try{
                     destinationFile = new FileOutputStream(dest);
@@ -129,6 +129,9 @@ public class DecompressFast {
 
         return true; // Rsultat OK
     }
+
+
+
 
 
 

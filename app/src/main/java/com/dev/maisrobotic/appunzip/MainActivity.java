@@ -69,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
         //AssetManager assetManager = this.getAssets("default/wifi_scanner.zip");
         Path source = Paths.get(String.valueOf(getFileStreamPath("wifi_scanner.zip")));
         Path newDir = Paths.get(String.valueOf(Paths.get(Environment.getExternalStorageDirectory() + "/Music/")));
+
+
         //Files.copy(source,newDir.resolve(source.getFileName()));
        // copyFile("default/wifi_scanner.zip",String.valueOf(newDir),this);
         try {
@@ -78,13 +80,25 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        DecompressFast.copyFile2(new File("default/wifi_scanner.zip"),new File(String.valueOf(newDir)));
+        // Exemplo 02 da classe -> DescompressFast
+       // DecompressFast.copyFile2(new File("/storage/self/primary/Zip/wifi_scanner.zip"),new File(String.valueOf(newDir)));
 
         btnUnzip = (Button) findViewById(R.id.btnUnzip);
         //FileInputStream zip = new FileInputStream("/data/data/com.dev.maisrobotic.appunzip/wifi_scanner.zip",Context.MODE_PRIVATE);
 
-        //AssetManager assetManager = this.getAssets();
-        textView.setText(String.valueOf(getAssetFile(this,"wifi_scanner.zip")));
+        AssetManager assetManager = getResources().getAssets();
+        try {
+            String[] lista = assetManager.list("default/");
+            textView.setText(lista.length);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this,"Lista vazia ",Toast.LENGTH_LONG).show();
+
+
+        }
+        //textView.setText(String.valueOf(getAssetFile(this,"wifi_scanner.zip")));
+
+
 
         // acessar diretótio do arquivo.zip na pasta assets
         File localZip = getAssetFile(this,"wifi_scanner.zip");
