@@ -1,7 +1,6 @@
 package com.dev.maisrobotic.appunzip;
 import android.Manifest;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.os.Build;
@@ -23,24 +22,15 @@ import android.widget.Toast;
 
 import java.io.*;
 
-import java.util.*;
-
-import java.util.zip.*;
-
-import java.text.*;
 //data/data/android
 
 //storage/self/primary/Download/wifi_scanner.zip
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -65,47 +55,27 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         TextView textView = (TextView) findViewById(R.id.textview);
+        // solicita as permissõs
         checkRequiredPermissions();
-        //AssetManager assetManager = this.getAssets("default/wifi_scanner.zip");
         Path source = Paths.get(String.valueOf(getFileStreamPath("wifi_scanner.zip")));
         Path newDir = Paths.get(String.valueOf(Paths.get(Environment.getExternalStorageDirectory() + "/Music/")));
 
-
-        //Files.copy(source,newDir.resolve(source.getFileName()));
-       // copyFile("default/wifi_scanner.zip",String.valueOf(newDir),this);
-
-        copyAsset("wifi_scanner.zip");
-
-
-        // Exemplo 02 da classe -> DescompressFast
-       // DecompressFast.copyFile2(new File("/storage/self/primary/Zip/wifi_scanner.zip"),new File(String.valueOf(newDir)));
-
         btnUnzip = (Button) findViewById(R.id.btnUnzip);
-
-        AssetManager assetManager = getResources().getAssets();
-
-        textView.setText(String.valueOf(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Zip"));
-
-
-
-        // acessar diretótio do arquivo.zip na pasta assets
-        File localZip = getAssetFile(this,"wifi_scanner.zip");
 
 
         btnUnzip.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                    // /data/data/com.dev.maisrobotic.appunzip
-                //String cm = cm.getAssets("default/wifi_scanner.zip");. /data/data/com.dev.maisrobotic.appunzip /storage/self/primary/data
-
-                String zipFile = (Environment.getExternalStorageDirectory() + String.valueOf(localZip)); //your zip file location
-
-                //InputStream zipFile2 = Environment.getExternalStorageDirectory() + getAssets().open("wifi_scanner.zip");
+                // Copia o Arquivo wifi_scanner.zip
+                copyAsset("wifi_scanner.zip");
 
                 String unzipLocation = Environment.getExternalStorageDirectory() + "/Zip/"; // destination folder location
-              //]  DecompressFast df= new DecompressFast(zipFile, unzipLocation);
-                DecompressFast.unzip2(Paths.get(Environment.getExternalStorageDirectory() + String.valueOf(localZip)),Paths.get(Environment.getExternalStorageDirectory() + "/Zip/"));
+
+                textView.setText(String.valueOf(Environment.getExternalStorageDirectory() + "/Zip/")); // Teste
+
+                // Descompacta o arquivo zip
+                Decompacta.unzip(Paths.get(Environment.getExternalStorageDirectory() + "/Zip/wifi_scanner.zip"),Paths.get(Environment.getExternalStorageDirectory() + "/Zip"));
 
 
             }
@@ -113,42 +83,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    /*
-    * Retorna diretorio do arquivo
-     */
-    public String fileName(String fileName){
-
-        return Environment.getDataDirectory() + "/" + fileName;
-    }
-
-    public File getAssetFile(Context context, String fileName) {
-        File bitmap = null;
-
-        Log.i("default", "getAssetFile: fileName: "+fileName);
-        File filePath = null;
-
-        try {
-
-            filePath = context.getFileStreamPath(fileName);
-            //bitmap = BitmapFactory.decodeFile(filePath.toString());
-            return filePath;
-
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            Log.i("default", "getAssetFile: "+e.getMessage());
-            e.printStackTrace();
-
-        }
-        return filePath;
-    }
-
+    // compia o arquivo.zip na pasta
     private void copyAsset(String filename) {
         String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Zip/Otavio ";
         File dir  = new File(dirPath);
         if (!dir.exists()){
             dir.mkdirs();
         }
-
 
         AssetManager assetManager = getAssets();
         InputStream in = null;
@@ -210,7 +151,6 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    // -----------------------------------------------------------------------
 
 
 

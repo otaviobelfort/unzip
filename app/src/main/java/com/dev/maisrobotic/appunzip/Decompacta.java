@@ -40,14 +40,14 @@ import androidx.annotation.RequiresApi;
 
 import static java.nio.file.Files.newInputStream;
 
-public class DecompressFast {
+public class Decompacta {
 
 
 
     private String _zipFile;
     private String _location;
 
-    public DecompressFast(String zipFile, String location) {
+    public Decompacta(String zipFile, String location) {
         _zipFile = zipFile;
         _location = location;
 
@@ -65,7 +65,7 @@ public class DecompressFast {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static void unzip2(Path zipFile, Path destination) {
+    public static void unzip(Path zipFile, Path destination) {
 
         try (ZipInputStream zis = new ZipInputStream(newInputStream(zipFile))) {
 
@@ -97,47 +97,10 @@ public class DecompressFast {
             throw new RuntimeException(e);
         }
     }
-// ---------------------------------------------------------------------
-    public static boolean copyFile2(File source, File dest){
-        try{
-            // Declaration et ouverture des flux
-            FileInputStream sourceFile = new FileInputStream(source);
 
-            try{
-                FileOutputStream destinationFile = null;
-
-                try{
-                    destinationFile = new FileOutputStream(dest);
-
-                    // Lecture par segment de 0.5Mo
-                    byte buffer[] = new byte[512 * 1024];
-                    int nbLecture;
-
-                    while ((nbLecture = sourceFile.read(buffer)) != -1){
-                        destinationFile.write(buffer, 0, nbLecture);
-                    }
-                } finally {
-                    destinationFile.close();
-                }
-            } finally {
-                sourceFile.close();
-            }
-        } catch (IOException e){
-            e.printStackTrace();
-            return false; // Erreur
-        }
-
-        return true; // Rsultat OK
     }
 
 
-
-
-
-
-
-
-}
 
 
 /*
